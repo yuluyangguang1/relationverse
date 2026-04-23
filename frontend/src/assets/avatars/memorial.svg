@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="bg-mem" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#2d1b4e"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </radialGradient>
+    <filter id="glow-mem"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#bg-mem)"/>
+  
+  <!-- 光晕 -->
+  <circle cx="100" cy="70" r="50" fill="#A78BFA" opacity="0.08"/>
+  <circle cx="100" cy="70" r="35" fill="#A78BFA" opacity="0.06"/>
+  
+  <!-- 鸽子 -->
+  <g filter="url(#glow-mem)" transform="translate(100,75)">
+    <path d="M0 -20 Q-15 -25 -25 -10 Q-30 0 -20 10 Q-10 15 0 5 Q10 15 20 10 Q30 0 25 -10 Q15 -25 0 -20Z" fill="#E8DFF5" opacity="0.9"/>
+    <path d="M-25 -5 Q-40 -15 -50 -5 Q-45 0 -30 5" fill="#E8DFF5" opacity="0.7"/>
+    <path d="M25 -5 Q40 -15 50 -5 Q45 0 30 5" fill="#E8DFF5" opacity="0.7"/>
+    <circle cx="0" cy="-8" r="2" fill="#A78BFA"/>
+  </g>
+  
+  <!-- 光线 -->
+  <g opacity="0.15">
+    <line x1="100" y1="30" x2="60" y2="150" stroke="#A78BFA" stroke-width="1"/>
+    <line x1="100" y1="30" x2="100" y2="155" stroke="#A78BFA" stroke-width="1"/>
+    <line x1="100" y1="30" x2="140" y2="150" stroke="#A78BFA" stroke-width="1"/>
+  </g>
+  
+  <!-- 文字 -->
+  <text x="100" y="165" text-anchor="middle" fill="#A78BFA" font-size="14" opacity="0.6" font-family="sans-serif">🕊️ 永远怀念</text>
+</svg>

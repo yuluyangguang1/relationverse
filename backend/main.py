@@ -1,5 +1,5 @@
 """
-RelationVerse — AI 关系宇宙
+Embera — AI 余温
 FastAPI 后端主入口
 """
 
@@ -21,17 +21,17 @@ async def lifespan(app: FastAPI):
     """应用生命周期管理"""
     # 启动时
     await init_db()
-    print("🚀 RelationVerse 后端启动完成")
+    print("🚀 Embera · 余温 后端启动完成")
     print(f"📡 API 文档: http://{os.getenv('HOST', '0.0.0.0')}:{os.getenv('PORT', '8000')}/docs")
     yield
     # 关闭时
     await close_db()
-    print("👋 RelationVerse 后端已关闭")
+    print("👋 Embera · 余温 后端已关闭")
 
 
 app = FastAPI(
-    title="RelationVerse API",
-    description="AI 关系宇宙 — 恋人 · 朋友 · 家人 · 宠物 · 导师",
+    title="Embera · 余温 API",
+    description="Embera · 余温 — AI 陪伴，永恒温暖",
     version="0.1.0",
     lifespan=lifespan,
 )
@@ -62,9 +62,9 @@ app.include_router(upload.router, prefix="/api/upload", tags=["文件上传"])
 @app.get("/")
 async def root():
     return {
-        "name": "RelationVerse",
+        "name": "Embera · 余温",
         "version": "0.1.0",
-        "description": "AI 关系宇宙 — 让每个人拥有真实的情感连接",
+        "description": "Embera · 余温 — AI 陪伴，永恒温暖",
         "docs": "/docs",
     }
 

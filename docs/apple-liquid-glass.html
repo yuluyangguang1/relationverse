@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Liquid Glass 效果学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 50px;
+        }
+
+        /* ═══════════════════════════════════════
+           Apple Liquid Glass 核心效果
+           ═══════════════════════════════════════ */
+        
+        /* 1. 基础毛玻璃效果 */
+        .glass-basic {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+        }
+
+        /* 2. 高级毛玻璃（带阴影和高光） */
+        .glass-premium {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* 3. iOS 控制中心风格 */
+        .glass-control-center {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(50px) saturate(200%);
+            -webkit-backdrop-filter: blur(50px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        /* 4. 通知卡片风格 */
+        .glass-notification {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(60px) saturate(200%);
+            -webkit-backdrop-filter: blur(60px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* ═══════════════════════════════════════
+           示例卡片
+           ═══════════════════════════════════════ */
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .demo-card {
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .demo-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .demo-card code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* ═══════════════════════════════════════
+           实际应用示例
+           ═══════════════════════════════════════ */
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 60px 0 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* iOS 风格控制面板 */
+        .control-panel {
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-row:last-child {
+            border-bottom: none;
+        }
+
+        .control-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .control-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-wifi { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .icon-bluetooth { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .icon-airplane { background: linear-gradient(135deg, #FF9500, #FF6B00); }
+        .icon-cellular { background: linear-gradient(135deg, #34C759, #30D158); }
+
+        /* iOS 风格开关 */
+        .toggle {
+            width: 51px;
+            height: 31px;
+            background: rgba(120, 120, 128, 0.32);
+            border-radius: 15.5px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle.active {
+            background: #34C759;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle.active::after {
+            transform: translateX(20px);
+        }
+
+        /* iOS 风格滑块 */
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            width: 50%;
+            position: relative;
+        }
+
+        .slider-thumb {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            right: -14px;
+            top: -12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: grab;
+        }
+
+        /* 通知卡片 */
+        .notifications {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .notification {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .icon-messages { background: linear-gradient(135deg, #34C759, #30D158); }
+        .icon-mail { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .icon-calendar { background: linear-gradient(135deg, #FF3B30, #FF6B6B); }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .notification-text {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            opacity: 0.6;
+            font-size: 0.8rem;
+        }
+
+        /* 小组件卡片 */
+        .widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .widget-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .widget-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .widget-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* ═══════════════════════════════════════
+           响应式设计
+           ═══════════════════════════════════════ */
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           动画效果
+           ═══════════════════════════════════════ */
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="animate-in">Apple Liquid Glass 效果</h1>
+        <p class="subtitle animate-in animate-delay-1">学习 iOS/macOS 毛玻璃设计语言</p>
+
+        <!-- 核心效果展示 -->
+        <h2 class="section-title animate-in animate-delay-2">🎨 核心 CSS 属性</h2>
+        
+        <div class="demo-grid">
+            <div class="demo-card glass-basic animate-in animate-delay-1">
+                <h3>💧 基础毛玻璃</h3>
+                <p>使用 <code>backdrop-filter: blur()</code> 创建基础的毛玻璃效果。</p>
+                <code>backdrop-filter: blur(20px);</code>
+            </div>
+
+            <div class="demo-card glass-premium animate-in animate-delay-2">
+                <h3>✨ 高级毛玻璃</h3>
+                <p>增加 <code>saturate()</code> 提升色彩饱和度，配合多层阴影。</p>
+                <code>backdrop-filter: blur(40px) saturate(180%);</code>
+            </div>
+
+            <div class="demo-card glass-control-center animate-in animate-delay-3">
+                <h3>🎛️ 控制中心风格</h3>
+                <p>更强的模糊和饱和度，模拟 iOS 控制中心效果。</p>
+                <code>backdrop-filter: blur(50px) saturate(200%);</code>
+            </div>
+
+            <div class="demo-card glass-notification animate-in animate-delay-4">
+                <h3>🔔 通知卡片风格</h3>
+                <p>更高的透明度和饱和度，适合通知和浮层。</p>
+                <code>backdrop-filter: blur(60px) saturate(200%);</code>
+            </div>
+        </div>
+
+        <!-- 实际应用示例 -->
+        <h2 class="section-title animate-in">📱 实际应用示例</h2>
+
+        <!-- iOS 控制面板 -->
+        <div class="control-panel glass-control-center animate-in animate-delay-1">
+            <div class="control-row">
+                <div class="control-label">
+                    <div class="control-icon icon-airplane">✈️</div>
+                    <span>飞行模式</span>
+                </div>
+                <div class="toggle" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">
+                    <div class="control-icon icon-wifi">📶</div>
+                    <span>Wi-Fi</span>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">
+                    <div class="control-icon icon-bluetooth">🔵</div>
+                    <span>蓝牙</span>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">
+                    <div class="control-icon icon-cellular">📱</div>
+                    <span>蜂窝网络</span>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="slider-container">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>🔆 亮度</span>
+                    <span>75%</span>
+                </div>
+                <div class="slider">
+                    <div class="slider-fill">
+                        <div class="slider-thumb"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通知卡片 -->
+        <div class="notifications">
+            <div class="notification glass-notification animate-in animate-delay-1">
+                <div class="notification-icon icon-messages">💬</div>
+                <div class="notification-content">
+                    <div class="notification-title">小雪</div>
+                    <div class="notification-text">今天天气真好，要不要一起出去走走？</div>
+                </div>
+                <div class="notification-time">刚刚</div>
+            </div>
+
+            <div class="notification glass-notification animate-in animate-delay-2">
+                <div class="notification-icon icon-mail">📧</div>
+                <div class="notification-content">
+                    <div class="notification-title">系统通知</div>
+                    <div class="notification-text">您的订阅已成功续费</div>
+                </div>
+                <div class="notification-time">5分钟前</div>
+            </div>
+
+            <div class="notification glass-notification animate-in animate-delay-3">
+                <div class="notification-icon icon-calendar">📅</div>
+                <div class="notification-content">
+                    <div class="notification-title">日历提醒</div>
+                    <div class="notification-text">下午3点有视频会议</div>
+                </div>
+                <div class="notification-time">1小时前</div>
+            </div>
+        </div>
+
+        <!-- 小组件 -->
+        <div class="widgets">
+            <div class="widget glass-premium animate-in animate-delay-1">
+                <div class="widget-icon">🌤️</div>
+                <div class="widget-value">26°</div>
+                <div class="widget-label">北京 · 晴</div>
+            </div>
+
+            <div class="widget glass-premium animate-in animate-delay-2">
+                <div class="widget-icon">🏃</div>
+                <div class="widget-value">8,542</div>
+                <div class="widget-label">今日步数</div>
+            </div>
+
+            <div class="widget glass-premium animate-in animate-delay-3">
+                <div class="widget-icon">❤️</div>
+                <div class="widget-value">72</div>
+                <div class="widget-label">心率 BPM</div>
+            </div>
+
+            <div class="widget glass-premium animate-in animate-delay-4">
+                <div class="widget-icon">🔋</div>
+                <div class="widget-value">85%</div>
+                <div class="widget-label">电池电量</div>
+            </div>
+        </div>
+
+        <!-- 技术说明 -->
+        <h2 class="section-title animate-in">📚 技术要点</h2>
+        
+        <div class="demo-grid">
+            <div class="demo-card glass-basic animate-in animate-delay-1">
+                <h3>🔑 核心属性</h3>
+                <p><strong>backdrop-filter</strong> 是实现毛玻璃效果的核心 CSS 属性。</p>
+                <ul style="margin-left: 20px; margin-top: 10px; opacity: 0.9;">
+                    <li><code>blur()</code> - 模糊程度</li>
+                    <li><code>saturate()</code> - 饱和度</li>
+                    <li><code>brightness()</code> - 亮度</li>
+                </ul>
+            </div>
+
+            <div class="demo-card glass-basic animate-in animate-delay-2">
+                <h3>⚠️ 浏览器兼容性</h3>
+                <p>需要添加 <code>-webkit-</code> 前缀以支持 Safari。</p>
+                <ul style="margin-left: 20px; margin-top: 10px; opacity: 0.9;">
+                    <li>Chrome 76+</li>
+                    <li>Safari 9+ (需前缀)</li>
+                    <li>Firefox 103+</li>
+                    <li>Edge 79+</li>
+                </ul>
+            </div>
+
+            <div class="demo-card glass-basic animate-in animate-delay-3">
+                <h3>💡 最佳实践</h3>
+                <ul style="margin-left: 20px; opacity: 0.9;">
+                    <li>使用半透明背景色</li>
+                    <li>配合多层阴影增加深度</li>
+                    <li>使用 <code>inset</code> 阴影模拟高光</li>
+                    <li>添加边框增加层次感</li>
+                </ul>
+            </div>
+
+            <div class="demo-card glass-basic animate-in animate-delay-4">
+                <h3>🎯 应用场景</h3>
+                <ul style="margin-left: 20px; opacity: 0.9;">
+                    <li>导航栏和工具栏</li>
+                    <li>卡片和弹窗</li>
+                    <li>通知和提示</li>
+                    <li>控制面板和设置</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的交互效果
+        document.querySelectorAll('.toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="bg-dog" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </radialGradient>
+    <filter id="glow-dog"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <circle cx="100" cy="100" r="95" fill="url(#bg-dog)"/>
+  
+  <!-- 身体 -->
+  <ellipse cx="100" cy="160" rx="45" ry="35" fill="#D2691E"/>
+  <ellipse cx="100" cy="155" rx="30" ry="20" fill="#DEB887"/>
+  
+  <!-- 头 -->
+  <ellipse cx="100" cy="95" rx="48" ry="42" fill="#D2691E"/>
+  
+  <!-- 耳朵（垂耳） -->
+  <ellipse cx="58" cy="85" rx="22" ry="35" fill="#8B4513" transform="rotate(-15,58,85)"/>
+  <ellipse cx="142" cy="85" rx="22" ry="35" fill="#8B4513" transform="rotate(15,142,85)"/>
+  
+  <!-- 面部浅色 -->
+  <ellipse cx="100" cy="100" rx="35" ry="30" fill="#DEB887"/>
+  
+  <!-- 眼睛 -->
+  <g filter="url(#glow-dog)">
+    <ellipse cx="82" cy="90" rx="12" ry="13" fill="white"/>
+    <ellipse cx="84" cy="91" rx="8" ry="9" fill="#2C1810"/>
+    <ellipse cx="86" cy="89" rx="4" ry="4.5" fill="white"/>
+    <ellipse cx="82" cy="93" rx="2" ry="2.5" fill="white" opacity="0.5"/>
+    
+    <ellipse cx="118" cy="90" rx="12" ry="13" fill="white"/>
+    <ellipse cx="116" cy="91" rx="8" ry="9" fill="#2C1810"/>
+    <ellipse cx="118" cy="89" rx="4" ry="4.5" fill="white"/>
+    <ellipse cx="114" cy="93" rx="2" ry="2.5" fill="white" opacity="0.5"/>
+  </g>
+  
+  <!-- 眉毛 -->
+  <path d="M72 80 Q82 74 92 80" stroke="#8B4513" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M108 80 Q118 74 128 80" stroke="#8B4513" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="108" rx="10" ry="8" fill="#1A1A1A"/>
+  <ellipse cx="98" cy="106" rx="3" ry="2" fill="white" opacity="0.3"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M100 116 Q100 125 92 128" stroke="#1A1A1A" stroke-width="2" fill="none"/>
+  <path d="M100 116 Q100 125 108 128" stroke="#1A1A1A" stroke-width="2" fill="none"/>
+  
+  <!-- 舌头 -->
+  <ellipse cx="100" cy="130" rx="8" ry="12" fill="#FF6B8A"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="70" cy="105" rx="10" ry="5" fill="#FFB6C1" opacity="0.3"/>
+  <ellipse cx="130" cy="105" rx="10" ry="5" fill="#FFB6C1" opacity="0.3"/>
+  
+  <!-- 尾巴 -->
+  <path d="M145 150 Q165 135 170 115 Q172 105 165 100" stroke="#D2691E" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>

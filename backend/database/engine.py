@@ -11,7 +11,7 @@ class Base(DeclarativeBase):
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://postgres:password@localhost:5432/relationverse",
+    "sqlite+aiosqlite:///./embera.db",
 )
 
 engine = create_async_engine(DATABASE_URL, echo=False)

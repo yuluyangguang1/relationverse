@@ -1,0 +1,317 @@
+/**
+ * Apple Liquid Glass 效果
+ * 可直接用于 Embera 项目
+ */
+
+/* ═══════════════════════════════════════
+   基础毛玻璃效果
+   ═══════════════════════════════════════ */
+
+/* 轻度模糊 - 适合背景较简单的场景 */
+.glass-light {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+}
+
+/* 中度模糊 - 通用场景 */
+.glass-medium {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+/* 重度模糊 - 适合复杂背景 */
+.glass-heavy {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+}
+
+/* ═══════════════════════════════════════
+   iOS 风格变体
+   ═══════════════════════════════════════ */
+
+/* iOS 控制中心风格 */
+.glass-ios-control {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(50px) saturate(200%);
+    -webkit-backdrop-filter: blur(50px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* iOS 通知风格 */
+.glass-ios-notification {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(60px) saturate(200%);
+    -webkit-backdrop-filter: blur(60px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* iOS 小组件风格 */
+.glass-ios-widget {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════
+   暗色模式变体
+   ═══════════════════════════════════════ */
+
+/* 暗色毛玻璃 */
+.glass-dark {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+.glass-dark-heavy {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════
+   彩色毛玻璃
+   ═══════════════════════════════════════ */
+
+/* 蓝色毛玻璃 */
+.glass-blue {
+    background: rgba(0, 122, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 122, 255, 0.3);
+    border-radius: 20px;
+}
+
+/* 紫色毛玻璃 */
+.glass-purple {
+    background: rgba(88, 86, 214, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(88, 86, 214, 0.3);
+    border-radius: 20px;
+}
+
+/* 粉色毛玻璃 */
+.glass-pink {
+    background: rgba(255, 45, 85, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 45, 85, 0.3);
+    border-radius: 20px;
+}
+
+/* 绿色毛玻璃 */
+.glass-green {
+    background: rgba(52, 199, 89, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    border-radius: 20px;
+}
+
+/* ═══════════════════════════════════════
+   特殊效果
+   ═══════════════════════════════════════ */
+
+/* 带高光的毛玻璃 */
+.glass-highlight {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 24px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.8), 
+        transparent);
+}
+
+/* 浮动效果 */
+.glass-floating {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 8px 20px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.glass-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.2),
+        0 15px 30px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ═══════════════════════════════════════
+   工具类
+   ═══════════════════════════════════════ */
+
+/* 毛玻璃背景 */
+.backdrop-blur-sm { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.backdrop-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.backdrop-blur-md { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.backdrop-blur-lg { backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.backdrop-blur-xl { backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); }
+.backdrop-blur-2xl { backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px); }
+
+/* 饱和度 */
+.backdrop-saturate-50 { backdrop-filter: saturate(50%); -webkit-backdrop-filter: saturate(50%); }
+.backdrop-saturate-100 { backdrop-filter: saturate(100%); -webkit-backdrop-filter: saturate(100%); }
+.backdrop-saturate-150 { backdrop-filter: saturate(150%); -webkit-backdrop-filter: saturate(150%); }
+.backdrop-saturate-200 { backdrop-filter: saturate(200%); -webkit-backdrop-filter: saturate(200%); }
+
+/* 组合效果 */
+.backdrop-blur-saturate {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ═══════════════════════════════════════
+   使用示例
+   ═══════════════════════════════════════ */
+
+/*
+HTML 示例:
+
+<!-- 基础毛玻璃卡片 -->
+<div class="glass-medium">
+    <h3>标题</h3>
+    <p>内容</p>
+</div>
+
+<!-- iOS 控制中心风格 -->
+<div class="glass-ios-control">
+    <div class="control-item">
+        <span>Wi-Fi</span>
+        <div class="toggle"></div>
+    </div>
+</div>
+
+<!-- 通知卡片 -->
+<div class="glass-ios-notification">
+    <div class="notification-icon">💬</div>
+    <div class="notification-content">
+        <div class="notification-title">标题</div>
+        <div class="notification-text">内容</div>
+    </div>
+</div>
+
+<!-- 暗色毛玻璃 -->
+<div class="glass-dark">
+    <p>暗色模式内容</p>
+</div>
+
+<!-- 彩色毛玻璃 -->
+<div class="glass-blue">
+    <p>蓝色主题</p>
+</div>
+
+<!-- 浮动效果 -->
+<div class="glass-floating">
+    <p>鼠标悬浮会上升</p>
+</div>
+*/
+
+/* ═══════════════════════════════════════
+   Embera 集成建议
+   ═══════════════════════════════════════ */
+
+/*
+在 Embera 中应用:
+
+1. 聊天界面顶部导航:
+.chat-topbar {
+    background: rgba(8, 8, 15, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+2. 消息气泡:
+.chat-bubble {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+3. 底部输入区:
+.chat-bottom {
+    background: rgba(8, 8, 15, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+4. 角色卡片:
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+5. 弹窗/模态框:
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+}
+*/

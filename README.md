@@ -1,11 +1,11 @@
-# RelationVerse — 关系宇宙
+# Embera — 余温
 
-> AI 陪伴宇宙：恋人 · 朋友 · 家人 · 宠物 · 导师 · 一个属于你的小家
+> Embera · 余温 — AI 陪伴，永恒温暖
 
 ## 项目结构
 
 ```
-RelationVerse/
+Embera/
 ├── backend/              # FastAPI 后端
 │   ├── api/              # API 路由
 │   ├── core/             # 核心配置

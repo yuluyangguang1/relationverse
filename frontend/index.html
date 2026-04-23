@@ -3,12 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>关系宇宙 — RelationVerse</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+  <title>Embera · 余温</title>
+  <link rel="icon" href="src/assets/logo-icon.svg">
   <link rel="stylesheet" href="src/style.css">
+  <!-- Google 3D Model Viewer -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 <body>
 <div id="app">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 性别选择页（首次进入） -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-gender" class="page">
+  <div class="gender-page">
+    <!-- 背景渐变 -->
+    <div class="gender-bg">
+      <div class="gender-gradient g1"></div>
+      <div class="gender-gradient g2"></div>
+      <div class="gender-gradient g3"></div>
+      <div class="gender-noise"></div>
+    </div>
+
+    <div class="gender-content">
+      <!-- Logo -->
+      <div class="gender-logo">
+        <span class="gender-logo-ring"></span>
+        <img src="src/assets/logo-icon.svg" alt="Embera · 余温" class="gender-logo-icon">
+      </div>
+
+      <h1 class="gender-title">你是谁？</h1>
+      <p class="gender-subtitle">选择身份，解锁专属体验</p>
+
+      <!-- 选择卡片 -->
+      <div class="gender-options">
+        <button class="gender-opt" onclick="selectGender('male')" data-gender="male">
+          <div class="gender-opt-bg"></div>
+          <div class="gender-opt-avatar">
+            <span class="gender-opt-emoji">👨</span>
+          </div>
+          <div class="gender-opt-info">
+            <span class="gender-opt-name">男生</span>
+            <span class="gender-opt-hint">邂逅温柔 AI 女友</span>
+          </div>
+          <span class="gender-opt-arrow">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+
+        <button class="gender-opt" onclick="selectGender('female')" data-gender="female">
+          <div class="gender-opt-bg"></div>
+          <div class="gender-opt-avatar">
+            <span class="gender-opt-emoji">👩</span>
+          </div>
+          <div class="gender-opt-info">
+            <span class="gender-opt-name">女生</span>
+            <span class="gender-opt-hint">邂逅帅气 AI 男友</span>
+          </div>
+          <span class="gender-opt-arrow">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+
+        <button class="gender-opt" onclick="selectGender('neutral')" data-gender="neutral">
+          <div class="gender-opt-bg"></div>
+          <div class="gender-opt-avatar">
+            <span class="gender-opt-emoji">🧑</span>
+          </div>
+          <div class="gender-opt-info">
+            <span class="gender-opt-name">不设限</span>
+            <span class="gender-opt-hint">自由探索全部角色</span>
+          </div>
+          <span class="gender-opt-arrow">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <p class="gender-footer">可在个人中心随时更改</p>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════════ -->
 <!-- 首页 -->
@@ -16,7 +91,8 @@
 <div id="page-home" class="page active">
   <header class="header">
     <div class="header-left">
-      <span class="header-title gradient">🌌 关系宇宙</span>
+      <img src="src/assets/logo-icon.svg" alt="Embera · 余温" class="header-logo">
+      <span class="header-title gradient">Embera · 余温</span>
     </div>
     <div class="header-actions">
       <button class="header-btn" onclick="router.go('create')">➕</button>
@@ -78,34 +154,65 @@
 </div>
 
 <!-- ═══════════════════════════════════════════ -->
-<!-- 聊天页面 -->
+<!-- 聊天页面（Grok 沉浸式风格） -->
 <!-- ═══════════════════════════════════════════ -->
-<div id="page-chat" class="page">
-  <header class="header">
-    <div class="header-left">
-      <button class="header-back" onclick="router.go('home')">←</button>
-      <div>
-        <div class="header-title" id="chat-char-name">聊天中</div>
-        <div style="font-size:11px;color:var(--text-muted)" id="chat-char-stage"></div>
+<div id="page-chat" class="page chat-immersive">
+  <!-- 动态背景 -->
+  <div class="chat-bg" id="chat-bg"></div>
+
+  <!-- 顶部导航（半透明） -->
+  <div class="chat-topbar">
+    <button class="chat-back" onclick="router.go('home')">←</button>
+    <div class="chat-topbar-info">
+      <span class="chat-topbar-name" id="chat-char-name">聊天中</span>
+      <span class="chat-topbar-stage" id="chat-char-stage"></span>
+    </div>
+    <div class="chat-topbar-actions">
+      <button class="chat-topbar-btn" id="chat-voice-btn" onclick="toggleVoiceMode()">🔊</button>
+      <button class="chat-topbar-btn" onclick="showCharInfo()">⋯</button>
+    </div>
+  </div>
+
+  <!-- 角色大头像区 -->
+  <div class="chat-hero" id="chat-hero">
+    <div class="chat-hero-glow" id="chat-hero-glow"></div>
+    <div class="chat-hero-avatar" id="chat-hero-avatar">
+      <!-- 3D 效果容器 -->
+      <div class="avatar-3d-wrap" id="avatar-3d-wrap">
+        <div class="avatar-3d-card" id="avatar-3d-card">
+          <div class="avatar-3d-front" id="avatar-3d-front"></div>
+          <div class="avatar-3d-shadow"></div>
+        </div>
+        <!-- 光效 -->
+        <div class="avatar-3d-shine"></div>
       </div>
     </div>
-    <div class="header-actions">
-      <button class="header-btn" id="chat-voice-btn" onclick="toggleVoiceMode()">🔊</button>
-      <button class="header-btn" onclick="showCharInfo()">⋯</button>
+    <div class="chat-hero-name" id="chat-hero-name"></div>
+    <div class="chat-hero-mood" id="chat-hero-mood">💭 等你说话...</div>
+    <!-- 亲密度条 -->
+    <div class="chat-intimacy-bar">
+      <div class="chat-intimacy-fill" id="chat-intimacy-fill"></div>
+      <span class="chat-intimacy-label" id="chat-intimacy-label">初识</span>
     </div>
-  </header>
+  </div>
 
-  <div class="main" id="chat-messages" style="display:flex;flex-direction:column;">
-    <div style="flex:1"></div>
+  <!-- 聊天消息区 -->
+  <div class="chat-body" id="chat-messages">
     <div id="chat-msg-list" class="chat-messages"></div>
   </div>
 
-  <div class="chat-input-area">
-    <button class="chat-voice" id="chat-mic-btn" onclick="toggleRecording()">🎤</button>
-    <textarea class="chat-input" id="chat-input" rows="1" placeholder="输入消息..."
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-      oninput="autoResize(this)"></textarea>
-    <button class="chat-send" id="chat-send-btn" onclick="sendChat()">➤</button>
+  <!-- 底部输入区 -->
+  <div class="chat-bottom">
+    <button class="chat-mic" id="chat-mic-btn" onclick="toggleRecording()">
+      <span class="chat-mic-icon">🎤</span>
+      <span class="chat-mic-ring"></span>
+    </button>
+    <div class="chat-input-wrap">
+      <textarea class="chat-input" id="chat-input" rows="1" placeholder="说点什么..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+        oninput="autoResize(this)"></textarea>
+    </div>
+    <button class="chat-send" onclick="sendChat()">➤</button>
   </div>
 </div>
 
@@ -238,6 +345,10 @@
     </div>
 
     <div style="background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;">
+      <div class="flex items-center justify-between" style="padding:16px;border-bottom:1px solid var(--border);cursor:pointer;" onclick="resetGender()">
+        <span>👤 性别</span>
+        <span style="color:var(--text-muted);" id="profile-gender">—</span>
+      </div>
       <div class="flex items-center justify-between" style="padding:16px;border-bottom:1px solid var(--border);">
         <span>💎 订阅等级</span>
         <span style="color:var(--text-muted);">免费</span>
@@ -257,8 +368,8 @@
     </div>
 
     <div style="text-align:center;margin-top:40px;color:var(--text-dim);font-size:12px;">
-      RelationVerse v0.1.0<br>
-      AI 关系宇宙 — 让每个人拥有真实的情感连接
+      Embera · 余温 v0.1.0<br>
+      Embera · 余温 — AI 陪伴，永恒温暖
     </div>
   </div>
   <nav class="tabbar">

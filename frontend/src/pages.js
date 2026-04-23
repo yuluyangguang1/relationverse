@@ -1,5 +1,5 @@
 /**
- * RelationVerse — 页面逻辑
+ * Embera — 页面逻辑
  */
 
 // ═══════════════════════════════════════════
@@ -8,7 +8,17 @@
 let currentCharId = null;
 let selectedType = null;
 let selectedPersona = null;
-let voiceMode = false;
+let voiceMode = null;
+let userGender = localStorage.getItem('rv_gender') || null;
+
+// ═══════════════════════════════════════════
+// 性别选择
+// ═══════════════════════════════════════════
+function selectGender(gender) {
+  userGender = gender;
+  localStorage.setItem('rv_gender', gender);
+  router.go('home');
+}
 
 // ═══════════════════════════════════════════
 // 首页
@@ -33,13 +43,16 @@ async function loadHomeCharacters() {
     
     data.characters.forEach(c => {
       const tc = TYPE_COLORS[c.type] || TYPE_COLORS.friend;
-      const emoji = TYPE_EMOJI[c.type] || '🤝';
+      const avatarUrl = AVATAR_MAP[c.persona_id];
+      const avatarHtml = avatarUrl
+        ? `<img src="${avatarUrl}" class="card-avatar-img" alt="${c.name}">`
+        : `<span>${TYPE_EMOJI[c.type] || '🤝'}</span>`;
       const stage = STAGE_NAMES[c.relationship_stage] || c.relationship_stage;
       const color = getIntimacyColor(c.intimacy_level);
       
       const html = `
-        <div class="card" onclick="openChat('${c.id}','${c.name}','${c.type}')">
-          <div class="card-avatar" style="background:${tc.bg}">${emoji}</div>
+        <div class="card" onclick="openChat('${c.id}','${c.name}','${c.type}','${c.persona_id}')">
+          <div class="card-avatar" style="background:${tc.bg}">${avatarHtml}</div>
           <div class="card-name">${c.name}</div>
           <div class="card-desc">${stage} · ${c.total_messages} 条消息</div>
           <div class="card-tags">
@@ -136,11 +149,48 @@ function createAddCardHtml(type) {
 // ═══════════════════════════════════════════
 // 聊天页面
 // ═══════════════════════════════════════════
-function openChat(charId, name, type) {
+function openChat(charId, name, type, personaId) {
   currentCharId = charId;
+  
+  // 顶部导航
   document.getElementById('chat-char-name').textContent = name;
-  const tc = TYPE_COLORS[type] || TYPE_COLORS.friend;
-  document.getElementById('chat-char-stage').textContent = TYPE_EMOJI[type] || '🤝';
+  
+  // Hero 区域
+  const heroAvatar = document.getElementById('chat-hero-avatar');
+  const heroName = document.getElementById('chat-hero-name');
+  const heroGlow = document.getElementById('chat-hero-glow');
+  
+  heroName.textContent = name;
+  
+  const avatarUrl = AVATAR_MAP[personaId];
+  const heroFront = document.getElementById('avatar-3d-front');
+  
+  if (avatarUrl) {
+    heroFront.innerHTML = `<img src="${avatarUrl}" alt="${name}">`;
+    document.getElementById('chat-char-stage').textContent = TYPE_EMOJI[type] || '🤝';
+  } else {
+    heroFront.innerHTML = `<span style="font-size:60px;line-height:130px;display:block;text-align:center">${TYPE_EMOJI[type] || '🤝'}</span>`;
+  }
+  
+  // 初始化 3D 交互
+  setTimeout(init3dAvatar, 100);
+  
+  // 根据角色类型调整光晕颜色
+  const glowColors = {
+    girlfriend: 'rgba(244,114,182,0.2)',
+    boyfriend: 'rgba(96,165,250,0.2)',
+    friend: 'rgba(52,211,153,0.2)',
+    family: 'rgba(251,146,60,0.2)',
+    mentor: 'rgba(56,189,248,0.2)',
+    fantasy: 'rgba(232,121,249,0.2)',
+  };
+  heroGlow.style.background = `radial-gradient(circle, ${glowColors[type] || glowColors.friend}, transparent 70%)`;
+  
+  // 重置亲密度
+  document.getElementById('chat-intimacy-fill').style.width = '0%';
+  document.getElementById('chat-intimacy-label').textContent = '初识';
+  document.getElementById('chat-hero-mood').textContent = '💭 等你说话...';
+  
   router.go('chat');
   loadChatHistory(charId);
 }
@@ -203,6 +253,10 @@ async function sendChat() {
     if (loading) {
       loading.innerHTML = `<div class="chat-bubble">${escapeHtml(data.reply)}</div><span class="chat-time">${formatTime(new Date().toISOString())}</span>`;
     }
+    
+    // 更新角色心情
+    updateCharMood(data.reply);
+    
     scrollToBottom();
   } catch (e) {
     const loading = document.getElementById(loadingId);
@@ -213,8 +267,10 @@ async function sendChat() {
 }
 
 function scrollToBottom() {
-  const container = document.getElementById('chat-messages');
-  setTimeout(() => { container.scrollTop = container.scrollHeight; }, 100);
+  const container = document.querySelector('.chat-body');
+  if (container) {
+    setTimeout(() => { container.scrollTop = container.scrollHeight; }, 100);
+  }
 }
 
 function autoResize(el) {
@@ -227,6 +283,84 @@ function toggleVoiceMode() {
   const btn = document.getElementById('chat-voice-btn');
   btn.textContent = voiceMode ? '📝' : '🔊';
   showToast(voiceMode ? '语音模式已开启' : '文字模式');
+}
+
+// ─── 3D 头像交互 ───
+function init3dAvatar() {
+  const wrap = document.getElementById('chat-hero-avatar');
+  const card = document.getElementById('avatar-3d-card');
+  const shine = document.querySelector('.avatar-3d-shine');
+  if (!wrap || !card) return;
+  
+  wrap.addEventListener('mousemove', (e) => {
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    const rotateY = x * 20;
+    const rotateX = -y * 15;
+    
+    card.style.animation = 'none';
+    card.style.transform = `perspective(600px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+    
+    if (shine) {
+      shine.style.background = `radial-gradient(circle at ${(x+0.5)*100}% ${(y+0.5)*100}%, rgba(255,255,255,0.25), transparent 60%)`;
+    }
+  });
+  
+  wrap.addEventListener('mouseleave', () => {
+    card.style.animation = '';
+    card.style.transform = '';
+    if (shine) {
+      shine.style.background = '';
+    }
+  });
+}
+
+// ─── 角色心情变化 ───
+const MOODS = [
+  { text: '💭 正在思考...', bg: '' },
+  { text: '😊 好开心呀', bg: 'mood-happy' },
+  { text: '😳 有点害羞', bg: 'mood-love' },
+  { text: '🥰 想你了', bg: 'mood-love' },
+  { text: '😄 哈哈哈哈', bg: 'mood-happy' },
+  { text: '🤔 让我想想', bg: '' },
+  { text: '😌 心情很好', bg: 'mood-happy' },
+  { text: '💕 越来越喜欢你了', bg: 'mood-love' },
+];
+
+function updateCharMood(reply) {
+  const moodEl = document.getElementById('chat-hero-mood');
+  const bgEl = document.getElementById('chat-bg');
+  const fillEl = document.getElementById('chat-intimacy-fill');
+  const labelEl = document.getElementById('chat-intimacy-label');
+  
+  // 根据回复内容判断心情
+  let moodIdx = 0;
+  if (reply.includes('哈哈') || reply.includes('开心')) moodIdx = 1;
+  else if (reply.includes('害羞') || reply.includes('讨厌')) moodIdx = 2;
+  else if (reply.includes('想你') || reply.includes('喜欢')) moodIdx = 3;
+  else if (reply.includes('笑')) moodIdx = 4;
+  else if (reply.includes('想') || reply.includes('嗯')) moodIdx = 5;
+  else moodIdx = Math.floor(Math.random() * MOODS.length);
+  
+  const mood = MOODS[moodIdx];
+  moodEl.textContent = mood.text;
+  
+  // 切换背景
+  bgEl.className = 'chat-bg ' + (mood.bg || '');
+  
+  // 亲密度增长（模拟）
+  const currentWidth = parseFloat(fillEl.style.width) || 0;
+  const newWidth = Math.min(currentWidth + 2, 100);
+  fillEl.style.width = newWidth + '%';
+  
+  // 更新阶段标签
+  if (newWidth < 20) labelEl.textContent = '初识';
+  else if (newWidth < 40) labelEl.textContent = '朋友';
+  else if (newWidth < 60) labelEl.textContent = '暧昧';
+  else if (newWidth < 80) labelEl.textContent = '恋人';
+  else labelEl.textContent = '灵魂伴侣';
 }
 
 function toggleRecording() {
@@ -261,14 +395,17 @@ async function onPage_chat_list() {
     
     let html = '';
     data.characters.forEach(c => {
-      const emoji = TYPE_EMOJI[c.type] || '🤝';
+      const avatarUrl = AVATAR_MAP[c.persona_id];
+      const avatarHtml = avatarUrl
+        ? `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+        : (TYPE_EMOJI[c.type] || '🤝');
       const time = c.last_active ? formatTime(c.last_active) : '从未聊天';
       
       html += `
         <div style="display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--border);cursor:pointer;" 
-             onclick="openChat('${c.id}','${c.name}','${c.type}')">
-          <div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
-            ${emoji}
+             onclick="openChat('${c.id}','${c.name}','${c.type}','${c.persona_id}')">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden;">
+            ${avatarHtml}
           </div>
           <div style="flex:1;min-width:0;">
             <div style="font-weight:600;">${c.name}</div>
@@ -291,8 +428,8 @@ async function onPage_chat_list() {
 // 创建角色页
 // ═══════════════════════════════════════════
 const CREATE_TYPES = [
-  { id: 'girlfriend', emoji: '💕', name: 'AI 女友', desc: '温柔陪伴' },
-  { id: 'boyfriend', emoji: '💙', name: 'AI 男友', desc: '守护你的人' },
+  { id: 'girlfriend', emoji: '💕', name: 'AI 女友', desc: '温柔陪伴', genderFilter: ['male', 'neutral'] },
+  { id: 'boyfriend', emoji: '💙', name: 'AI 男友', desc: '守护你的人', genderFilter: ['female', 'neutral'] },
   { id: 'friend', emoji: '🤝', name: 'AI 朋友', desc: '无话不谈' },
   { id: 'family', emoji: '👨‍👩‍👧', name: 'AI 家人', desc: '温暖的家' },
   { id: 'mentor', emoji: '🧠', name: 'AI 导师', desc: '帮你成长' },
@@ -305,8 +442,11 @@ function onPage_create(params) {
   document.getElementById('create-step1').classList.remove('hidden');
   document.getElementById('create-step2').classList.add('hidden');
   
+  // 根据用户性别过滤可创建的类型
+  const filteredTypes = CREATE_TYPES.filter(t => !t.genderFilter || t.genderFilter.includes(userGender));
+  
   const grid = document.getElementById('create-type-grid');
-  grid.innerHTML = CREATE_TYPES.map(t => `
+  grid.innerHTML = filteredTypes.map(t => `
     <div class="persona-option" onclick="selectCreateType('${t.id}')">
       <div class="emoji">${t.emoji}</div>
       <div class="name">${t.name}</div>
@@ -325,14 +465,20 @@ async function selectCreateType(type) {
     const templates = data.templates.filter(t => t.type === type);
     
     const grid = document.getElementById('create-persona-grid');
-    grid.innerHTML = templates.map(t => `
+    grid.innerHTML = templates.map(t => {
+      const avatarUrl = AVATAR_MAP[t.id];
+      const avatarHtml = avatarUrl
+        ? `<img src="${avatarUrl}" class="persona-avatar">`
+        : '';
+      return `
       <div class="persona-option" onclick="selectPersona('${t.id}', this)">
+        ${avatarHtml}
         <div class="name">${t.name}</div>
         <div class="card-tags" style="justify-content:center;margin-top:8px;">
           ${t.personality.map(p => `<span class="card-tag">${p}</span>`).join('')}
         </div>
       </div>
-    `).join('');
+    `;}).join('');
   } catch (e) {
     showToast('加载人设失败');
   }
@@ -483,6 +629,14 @@ async function petDoAction(action) {
 // ═══════════════════════════════════════════
 function onPage_profile() {
   document.getElementById('profile-api-url').textContent = api.base;
+  const genderLabel = userGender === 'male' ? '男性 👨' : userGender === 'female' ? '女性 👩' : '中性 🧑';
+  document.getElementById('profile-gender').textContent = genderLabel;
+}
+
+function resetGender() {
+  userGender = null;
+  localStorage.removeItem('rv_gender');
+  router.go('gender');
 }
 
 // ═══════════════════════════════════════════
@@ -498,5 +652,10 @@ function escapeHtml(text) {
 // 初始化
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  router.go('home');
+  // 首次进入：如果没有设置性别，先进入性别选择页
+  if (!userGender) {
+    router.go('gender');
+  } else {
+    router.go('home');
+  }
 });

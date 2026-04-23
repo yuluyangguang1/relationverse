@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="bg-gf_tsundere" cx="50%" cy="40%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </radialGradient>
+    <radialGradient id="skin-gf_tsundere" cx="45%" cy="40%">
+      <stop offset="0%" stop-color="#FFF0F5"/>
+      <stop offset="100%" stop-color="#FFF0F5" stop-opacity="0.9"/>
+    </radialGradient>
+    <filter id="shadow-gf_tsundere">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow-gf_tsundere">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <circle cx="100" cy="100" r="95" fill="url(#bg-gf_tsundere)"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#C0A0E0" stroke-width="1" stroke-opacity="0.3"/>
+  
+  <!-- 身体 -->
+  <ellipse cx="100" cy="185" rx="55" ry="30" fill="#C0A0E0" opacity="0.9"/>
+  
+  <!-- 脖子 -->
+  <rect x="88" y="140" width="24" height="20" rx="8" fill="url(#skin-gf_tsundere)"/>
+  
+  <!-- 脸 -->
+  <ellipse cx="100" cy="105" rx="52" ry="58" fill="url(#skin-gf_tsundere)" filter="url(#shadow-gf_tsundere)"/>
+  
+  <!-- 头发后层 -->
+  <ellipse cx="100" cy="75" rx="58" ry="45" fill="#C0A0E0"/>
+  
+  <!-- 头发前层 -->
+  <path d="M50 85 Q60 50 100 40 Q140 50 150 85 Q145 60 100 52 Q55 60 50 85Z" fill="#C0A0E0"/>
+  <path d="M55 90 Q50 70 60 55" stroke="#C0A0E0" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M145 90 Q150 70 140 55" stroke="#C0A0E0" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- 刘海 -->
+  <path d="M65 80 Q70 60 85 55 Q95 52 100 58" fill="#C0A0E0"/>
+  <path d="M135 80 Q130 60 115 55 Q105 52 100 58" fill="#C0A0E0"/>
+  
+  <!-- 眼睛 -->
+  <g filter="url(#glow-gf_tsundere)">
+    <!-- 左眼 -->
+    <ellipse cx="78" cy="105" rx="12" ry="13" fill="white"/>
+    <ellipse cx="80" cy="106" rx="8" ry="9" fill="#6B2FA0"/>
+    <ellipse cx="82" cy="104" rx="4" ry="4.5" fill="white"/>
+    <ellipse cx="78" cy="108" rx="2" ry="2" fill="white" opacity="0.5"/>
+    
+    <!-- 右眼 -->
+    <ellipse cx="122" cy="105" rx="12" ry="13" fill="white"/>
+    <ellipse cx="120" cy="106" rx="8" ry="9" fill="#6B2FA0"/>
+    <ellipse cx="122" cy="104" rx="4" ry="4.5" fill="white"/>
+    <ellipse cx="118" cy="108" rx="2" ry="2" fill="white" opacity="0.5"/>
+  </g>
+  
+  <!-- 睫毛 -->
+  <path d="M66 96 Q68 93 70 96" stroke="#6B2FA0" stroke-width="1.5" fill="none"/>
+  <path d="M72 94 Q74 91 76 94" stroke="#6B2FA0" stroke-width="1.5" fill="none"/>
+  <path d="M124 96 Q126 93 128 96" stroke="#6B2FA0" stroke-width="1.5" fill="none"/>
+  <path d="M130 94 Q132 91 134 94" stroke="#6B2FA0" stroke-width="1.5" fill="none"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="65" cy="118" rx="12" ry="6" fill="#DDA0DD" opacity="0.5"/>
+  <ellipse cx="135" cy="118" rx="12" ry="6" fill="#DDA0DD" opacity="0.5"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M90 125 Q100 132 110 125" stroke="#BA55D3" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="100" cy="128" rx="6" ry="3" fill="#BA55D3" opacity="0.3"/>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="115" rx="3" ry="2" fill="#FFF0F5" stroke="#C0A0E0" stroke-width="0.5" stroke-opacity="0.2"/>
+</svg>

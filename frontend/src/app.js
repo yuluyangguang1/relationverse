@@ -1,5 +1,5 @@
 /**
- * RelationVerse API 客户端
+ * Embera API 客户端
  */
 const API_BASE = localStorage.getItem('rv_api_base') || 'http://localhost:8000';
 
@@ -143,6 +143,25 @@ const STAGE_NAMES = {
   lover: '恋人',
   deep_love: '深爱',
   soulmate: '灵魂伴侣',
+};
+
+// ─── 角色头像 ───
+const AVATAR_MAP = {
+  gf_gentle: 'src/assets/avatars/gf_gentle.jpg',
+  gf_bubbly: 'src/assets/avatars/gf_bubbly.jpg',
+  gf_tsundere: 'src/assets/avatars/gf_tsundere.jpg',
+  gf_intellectual: 'src/assets/avatars/gf_intellectual.jpg',
+  bf_sunny: 'src/assets/avatars/bf_sunny.jpg',
+  bf_cold: 'src/assets/avatars/bf_cold.jpg',
+  bf_steady: 'src/assets/avatars/bf_steady.jpg',
+  bf_young: 'src/assets/avatars/bf_young.jpg',
+};
+
+// ─── 角色 3D 模型 ───
+const MODEL_3D_MAP = {
+  // 生成 3D 模型后放到 src/assets/models/ 目录
+  // gf_gentle: 'src/assets/models/gf_gentle.glb',
+  // gf_bubbly: 'src/assets/models/gf_bubbly.glb',
 };
 
 // ─── 角色类型 emoji ───

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100" width="320" height="100">
+  <defs>
+    <linearGradient id="flameGrad" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#FF5E78"/>
+      <stop offset="35%" stop-color="#FF7A3D"/>
+      <stop offset="65%" stop-color="#FFB84D"/>
+      <stop offset="90%" stop-color="#FFE4B5"/>
+      <stop offset="100%" stop-color="#FFF8F0"/>
+    </linearGradient>
+    <radialGradient id="innerFlame" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="30%" stop-color="#FFF0D4" stop-opacity="0.7"/>
+      <stop offset="70%" stop-color="#FFB84D" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FF7A3D" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="flameGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur1"/>
+      <feGaussianBlur stdDeviation="10" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFB84D"/>
+      <stop offset="50%" stop-color="#FF7A3D"/>
+      <stop offset="100%" stop-color="#FF5E78"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon -->
+  <g transform="translate(6, 6) scale(0.88)">
+    <path d="M50 88 C34 88 22 76 22 58 C22 46 29 33 40 24 C42 22 44 21 46 20 C44 26 45 33 48 39 C49 35 50 30 50 24 C50 30 51 35 52 39 C55 33 56 26 54 20 C56 21 58 22 60 24 C71 33 78 46 78 58 C78 76 66 88 50 88 Z"
+          fill="url(#flameGrad)" filter="url(#flameGlow)"/>
+    <path d="M50 78 C40 78 34 70 34 58 C34 50 38 42 44 36 C45 35 46 34 47 33 C46 38 47 43 49 47 C49 44 50 40 50 36 C50 40 51 44 51 47 C53 43 54 38 53 33 C54 34 55 35 56 36 C62 42 66 50 66 58 C66 70 60 78 50 78 Z"
+          fill="url(#innerFlame)"/>
+    <ellipse cx="50" cy="68" rx="6" ry="10" fill="#FFFFFF" opacity="0.6"/>
+  </g>
+
+  <!-- Text: Embera -->
+  <text x="96" y="58" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="36" font-weight="700" fill="url(#textGrad)" letter-spacing="1">Embera</text>
+  <!-- Text: 余温 -->
+  <text x="96" y="82" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="400" fill="#FF7A3D" opacity="0.8" letter-spacing="4">余温</text>
+</svg>
