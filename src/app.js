@@ -1,7 +1,28 @@
 /**
  * Embera · 余温 — API & 全局
  */
-const API_BASE = localStorage.getItem('rv_api_base') || 'http://localhost:8000';
+
+// ═══════════════════════════════════════════
+// API 配置（支持多环境）
+// ═══════════════════════════════════════════
+const getApiBase = () => {
+  // 1. 优先使用用户自定义设置
+  const custom = localStorage.getItem('rv_api_base');
+  if (custom) return custom;
+  
+  // 2. 开发环境自动用 localhost
+  const hostname = window.location.hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:8000';
+  }
+  
+  // 3. 生产环境使用相对路径（假设后端在同一域名）
+  // 如果是 GitHub Pages，需要后端也部署在同域名的 /api 路径
+  return '/api';
+};
+
+const API_BASE = getApiBase();
+console.log('🌐 API Base:', API_BASE);
 
 const api = {
   base: API_BASE,
