@@ -165,8 +165,19 @@ const AVATAR_MAP = {
   bf_sunny: 'src/assets/avatars/bf_sunny.jpg', bf_cold: 'src/assets/avatars/bf_cold.jpg',
   bf_steady: 'src/assets/avatars/bf_steady.jpg', bf_young: 'src/assets/avatars/bf_young.jpg',
 };
-const TYPE_EMOJI = { girlfriend: '💕', boyfriend: '💙', friend: '🤝', family: '👨‍👩‍👧', mentor: '🧠', fantasy: '🎭' };
-const PET_EMOJI = { cat: '🐱', dog: '🐶', rabbit: '🐰', panda: '🐼', fox: '🦊', dragon: '🐉', robot: '🤖' };
+const TYPE_EMOJI = {
+  girlfriend: 'src/assets/icons/在一起.png',
+  boyfriend: 'src/assets/icons/在一起.png',
+  friend: 'src/assets/icons/他们.png',
+  family: 'src/assets/icons/在一起.png',
+  mentor: 'src/assets/icons/陪伴.png',
+  pet: 'src/assets/icons/陪伴.png',
+  memorial: 'src/assets/icons/数字怀念.png'
+};;
+const PET_EMOJI = {
+  dog: 'src/assets/icons/陪伴.png',
+  cat: 'src/assets/icons/陪伴.png'
+};;
 
 // ═══════════════════════════════════════════
 // 全局状态
@@ -326,7 +337,7 @@ function renderThemList(keyword = '') {
 
   listEl.innerHTML = items.map(it => {
     const isPet = !!it.species;
-    const avatar = isPet ? (PET_EMOJI[it.species] || '🐾') : (TYPE_EMOJI[it.type] || '🤝');
+    const avatar = isPet ? (PET_EMOJI[it.species] || '🐾') : (TYPE_EMOJI[it.type] || 'src/assets/icons/陪伴.png');
     const img = (!isPet && AVATAR_MAP[it.avatar]) ? `<img src="${AVATAR_MAP[it.avatar]}" alt="">` : '';
     const lv = it.level || it.intimacy || 0;
     const intimacy = it.intimacy || 0;
@@ -484,7 +495,7 @@ function openChat(charId, name, type, personaId) {
   const avatarUrl = AVATAR_MAP[personaId];
   if (avatarEl) {
     if (avatarUrl) avatarEl.innerHTML = `<img src="${avatarUrl}" alt="">`;
-    else avatarEl.textContent = TYPE_EMOJI[type] || '🤝';
+    else avatarEl.textContent = TYPE_EMOJI[type] || 'src/assets/icons/陪伴.png';
   }
   const list = document.getElementById('chat-msg-list');
   if (list) list.innerHTML = '<div class="chat-empty"><div class="chat-empty-icon">💬</div><div class="chat-empty-text">开始你们的第一次对话吧</div></div>';
