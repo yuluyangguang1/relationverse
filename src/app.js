@@ -220,7 +220,7 @@ window.onPage_them = async function() {
   if (!listEl) return;
   listEl.innerHTML = '<div class="chat-empty"><div class="loading"><span class="loading-dots">加载中</span></div></div>';
   try {
-    const [chars, pets] = await Promise.all([api.characters.list().catch(() => []), api.pets.list().catch(() => ({ pets: [] }))]);
+    const [chars, pets] = await Promise.all([api.characters.list().catch(err => { console.error('加载角色失败:', err); return []; }), api.pets.list().catch(err => { console.error('加载宠物失败:', err); return { pets: [] }; })]);
     themData.characters = Array.isArray(chars) ? chars : [];
     themData.pets = pets.pets || [];
     renderThemList();
