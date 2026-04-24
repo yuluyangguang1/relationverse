@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,23 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Copy frontend files
+      - name: Copy all files to _site
         run: |
-          # 创建临时构建目录
           mkdir -p ./_site
-          # 复制 frontend 所有内容到 _site
-          cp -r frontend/* ./_site/
-          # 确保隐藏文件也复制（如 .nojekyll）
-          cp -r frontend/.* ./_site/ 2>/dev/null || true
+          # 复制仓库根目录所有前端文件到 _site
+          cp -r ./* ./_site/ 2>/dev/null || true
+          # 排除某些不需要的文件
+          shopt -s extglob
+          rm -rf ./_site/.git ./_site/.github ./_site/backend 2>/dev/null || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
