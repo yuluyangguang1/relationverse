@@ -22,6 +22,28 @@ const getApiBase = () => {
 };
 
 const API_BASE = getApiBase();
+
+// ═══════════════════════════════════════════
+// 模拟数据（GitHub Pages 演示用）
+// ═══════════════════════════════════════════
+const MOCK_DATA = {
+  characters: [
+    { id: 'gf_gentle', name: '温柔学姐', type: 'girlfriend', tagline: '温柔、安静、善于倾听', avatar: 'gf_gentle', level: 5, intimacy: 85 },
+    { id: 'gf_bubbly', name: '元气少女', type: 'girlfriend', tagline: '活泼开朗，能量满满', avatar: 'gf_bubbly', level: 4, intimacy: 72 },
+    { id: 'gf_tsundere', name: '傲娇大小姐', type: 'girlfriend', tagline: '口是心非，内心柔软', avatar: 'gf_tsundere', level: 3, intimacy: 45 },
+    { id: 'gf_intellectual', name: '知性姐姐', type: 'girlfriend', tagline: '理性智慧，值得信赖', avatar: 'gf_intellectual', level: 5, intimacy: 90 },
+    { id: 'bf_sunny', name: '阳光少年', type: 'boyfriend', tagline: '积极向上，温暖如光', avatar: 'bf_sunny', level: 4, intimacy: 78 },
+    { id: 'bf_cold', name: '高冷男生', type: 'boyfriend', tagline: '外表冷漠，内心炙热', avatar: 'bf_cold', level: 3, intimacy: 35 },
+    { id: 'bf_steady', name: '靠谱大叔', type: 'boyfriend', tagline: '稳重踏实，给人安全感', avatar: 'bf_steady', level: 5, intimacy: 88 },
+    { id: 'bf_young', name: '小奶狗', type: 'boyfriend', tagline: '粘人可爱，纯真热情', avatar: 'bf_young', level: 2, intimacy: 60 }
+  ],
+  pets: [
+    { id: 'cat_momo', name: '毛球', species: 'cat', level: 3, intimacy: 65 },
+    { id: 'dog_wang', name: '旺财', species: 'dog', level: 4, intimacy: 80 }
+  ],
+  memorial: []
+};
+
 console.log('🌐 API Base:', API_BASE);
 
 const api = {
@@ -240,15 +262,38 @@ window.onPage_them = async function() {
   const listEl = document.getElementById('them-list');
   if (!listEl) return;
   listEl.innerHTML = '<div class="chat-empty"><div class="loading"><span class="loading-dots">加载中</span></div></div>';
+  
   try {
-    const [chars, pets] = await Promise.all([api.characters.list().catch(err => { console.error('加载角色失败:', err); return []; }), api.pets.list().catch(err => { console.error('加载宠物失败:', err); return { pets: [] }; })]);
+    // 生产环境且没有自定义 API 配置时，使用模拟数据
+    const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const customApi = localStorage.getItem('rv_api_base');
+    
+    let chars = [], pets = { pets: [] };
+    
+    if (isProd && !customApi) {
+      // 生产环境且无自定义 API → 使用模拟数据
+      console.log('🎨 使用模拟数据（演示模式）');
+      await new Promise(r => setTimeout(r, 300)); // 模拟网络延迟
+      chars = MOCK_DATA.characters;
+      pets = MOCK_DATA.pets;
+    } else {
+      // 开发环境或自定义 API → 请求真实后端
+      const [c, p] = await Promise.all([
+        api.characters.list().catch(err => { console.error('加载角色失败:', err); return []; }),
+        api.pets.list().catch(err => { console.error('加载宠物失败:', err); return { pets: [] }; })
+      ]);
+      chars = c;
+      pets = p;
+    }
+    
     themData.characters = Array.isArray(chars) ? chars : [];
     themData.pets = pets.pets || [];
     renderThemList();
   } catch (e) {
+    console.error('加载失败:', e);
     listEl.innerHTML = '<div class="chat-empty"><div class="empty-icon">🫧</div><div class="empty-text">这里还空着...</div></div>';
   }
-};
+};;
 
 function switchThemTab(tab) {
   themTab = tab;
