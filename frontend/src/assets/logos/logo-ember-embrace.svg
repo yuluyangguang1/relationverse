@@ -1,0 +1,17 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="emberGrad4" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF9E5E"/>
+      <stop offset="100%" style="stop-color:#FF5E78"/>
+    </linearGradient>
+  </defs>
+  <!-- 一个开放的C形，像拥抱的空缺 -->
+  <path d="M 25 75 
+           C 25 40, 75 40, 75 35
+           C 75 30, 30 30, 30 45
+           C 30 55, 50 65, 50 75"
+        fill="none" 
+        stroke="url(#emberGrad4)" 
+        stroke-width="4" 
+        stroke-linecap="round"/>
+</svg>
