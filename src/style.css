@@ -479,6 +479,32 @@ html, body {
   display:flex; align-items:center; justify-content:center; cursor:pointer;
 }
 .pet-hero-avatar { font-size:100px; line-height:1; margin:20px 0 8px; }
+
+/* 宠物页头像图片 */
+.pet-hero-avatar img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 角色卡片头像图片 */
+.them-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 聊天头部头像图片 */
+.chat-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
 .pet-hero-name { font-size:22px; font-weight:600; color:var(--text); }
 .pet-hero-speech { font-size:14px; color:var(--text-muted); margin-top:6px; font-style:italic; }
 .pet-body { flex:1; overflow-y:auto; padding:0 20px 40px; }

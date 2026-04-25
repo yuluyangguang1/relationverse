@@ -166,18 +166,18 @@ const AVATAR_MAP = {
   bf_steady: 'src/assets/avatars/bf_steady.jpg', bf_young: 'src/assets/avatars/bf_young.jpg',
 };
 const TYPE_EMOJI = {
-  girlfriend: 'src/assets/icons/在一起.png',
-  boyfriend: 'src/assets/icons/在一起.png',
-  friend: 'src/assets/icons/他们.png',
-  family: 'src/assets/icons/在一起.png',
-  mentor: 'src/assets/icons/陪伴.png',
-  pet: 'src/assets/icons/陪伴.png',
-  memorial: 'src/assets/icons/数字怀念.png'
-};;
+  girlfriend: 'frontend/src/assets/icons/在一起.png',
+  boyfriend: 'frontend/src/assets/icons/在一起.png',
+  friend: 'frontend/src/assets/icons/他们.png',
+  family: 'frontend/src/assets/icons/在一起.png',
+  mentor: 'frontend/src/assets/icons/陪伴.png',
+  pet: 'frontend/src/assets/icons/陪伴.png',
+  memorial: 'frontend/src/assets/icons/数字怀念.png'
+};
 const PET_EMOJI = {
-  dog: 'src/assets/icons/陪伴.png',
-  cat: 'src/assets/icons/陪伴.png'
-};;
+  dog: 'frontend/src/assets/icons/陪伴.png',
+  cat: 'frontend/src/assets/icons/陪伴.png'
+};
 
 // ═══════════════════════════════════════════
 // 全局状态
@@ -337,7 +337,9 @@ function renderThemList(keyword = '') {
 
   listEl.innerHTML = items.map(it => {
     const isPet = !!it.species;
-    const avatar = isPet ? (PET_EMOJI[it.species] || '🐾') : (TYPE_EMOJI[it.type] || 'src/assets/icons/陪伴.png');
+    const avatar = isPet
+      ? (PET_EMOJI[it.species] ? `<img src="${PET_EMOJI[it.species]}" alt="">` : '🐾')
+      : (TYPE_EMOJI[it.type] ? `<img src="${TYPE_EMOJI[it.type]}" alt="">` : '陪伴');
     const img = (!isPet && AVATAR_MAP[it.avatar]) ? `<img src="${AVATAR_MAP[it.avatar]}" alt="">` : '';
     const lv = it.level || it.intimacy || 0;
     const intimacy = it.intimacy || 0;
@@ -385,7 +387,7 @@ window.onPage_pets = async function() {
     }
     listEl.innerHTML = pets.map(p => `
       <div class="them-card" onclick="openPet('${p.id}')">
-        <div class="them-card-avatar">${PET_EMOJI[p.species] || '🐾'}</div>
+        <div class="them-card-avatar"><img src="${PET_EMOJI[p.species] || 'frontend/src/assets/icons/陪伴.png'}" alt="" class="them-card-avatar-img"></div>
         <div class="them-card-name">${escapeHtml(p.name)}</div>
         <div class="them-card-lv">Lv.${p.level} · 亲密度 ${Math.floor(p.intimacy)}%</div>
         <div class="them-card-intimacy"><div class="them-card-intimacy-fill" style="width:${Math.min(p.intimacy,100)}%"></div></div>
@@ -495,7 +497,7 @@ function openChat(charId, name, type, personaId) {
   const avatarUrl = AVATAR_MAP[personaId];
   if (avatarEl) {
     if (avatarUrl) avatarEl.innerHTML = `<img src="${avatarUrl}" alt="">`;
-    else avatarEl.textContent = TYPE_EMOJI[type] || 'src/assets/icons/陪伴.png';
+    else avatarEl.innerHTML = `<img src="${TYPE_EMOJI[type] || 'frontend/src/assets/icons/陪伴.png'}" alt="" class="chat-header-avatar-img">`;
   }
   const list = document.getElementById('chat-msg-list');
   if (list) list.innerHTML = '<div class="chat-empty"><div class="chat-empty-icon">💬</div><div class="chat-empty-text">开始你们的第一次对话吧</div></div>';
@@ -588,7 +590,7 @@ window.onPage_pet = async function() {
     const pet = (data.pets || []).find(p => p.id === currentPetId);
     if (!pet) return;
     document.getElementById('pet-name').textContent = pet.name;
-    document.getElementById('pet-hero-avatar').textContent = PET_EMOJI[pet.species] || '🐾';
+    document.getElementById('pet-hero-avatar').innerHTML = `<img src="${PET_EMOJI[pet.species] || 'frontend/src/assets/icons/陪伴.png'}" alt="" class="pet-hero-avatar-img">`;
     const speechEl = document.getElementById('pet-speech');
     if (speechEl) {
       if (pet.intimacy < 20) speechEl.textContent = pet.species === 'cat' ? '"喵~"' : '"汪！"';
