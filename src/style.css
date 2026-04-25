@@ -101,7 +101,15 @@ html, body {
   transition:color 0.25s ease;
 }
 .tabbar-item.active { color:var(--primary); }
-.tabbar-icon { font-size:22px; line-height:1; filter: grayscale(0.3); transition:filter 0.25s; }
+.tabbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  filter: grayscale(0.3);
+  transition: filter 0.25s;
+}
 .tabbar-item.active .tabbar-icon { filter: grayscale(0); }
 .tabbar-label { font-size:10px; font-weight:500; }
 
@@ -486,6 +494,10 @@ html, body {
   height: 120px;
   object-fit: cover;
   border-radius: 50%;
+  display: block;
+  font-size: inherit;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 /* 角色卡片头像图片 */
@@ -494,6 +506,10 @@ html, body {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  display: block;
+  font-size: inherit; /* Reset */
+  line-height: 1;    /* Reset */
+  vertical-align: middle;
 }
 
 /* 聊天头部头像图片 */
@@ -502,6 +518,10 @@ html, body {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  display: block;
+  font-size: inherit;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 
@@ -781,10 +801,9 @@ html, body {
 
 /* Tab 栏图标样式 */
 .tab-icon-img {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  vertical-align: middle;
   filter: drop-shadow(0 2px 4px rgba(255, 158, 94, 0.3));
 }
 
